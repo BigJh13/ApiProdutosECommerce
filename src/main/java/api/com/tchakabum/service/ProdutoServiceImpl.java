@@ -48,7 +48,9 @@ public class ProdutoServiceImpl implements ProdutoService {
     		item.setPromocao(produtoVO.getPromocao());
     		item.setNome(produtoVO.getNome());
     		item.setDescricao(produtoVO.getDescricao());
-    		item.setQuantidade(produtoVO.getQuantidade());
+            item.setQuantidade(produtoVO.getQuantidade());
+            item.setUrlImagem(produtoVO.getUrlImagem());
+            item.setIdFornecedor(produtoVO.getIdFornecedor());
 
     		produtoRepository.save(item);
 
@@ -66,12 +68,14 @@ public class ProdutoServiceImpl implements ProdutoService {
 
         return ProdutoVO.builder()
         		.id(produtoEntity.getId())
+                .nome(produtoEntity.getNome())
+                .descricao(produtoEntity.getDescricao())
                 .valor(produtoEntity.getValor())
+                .categoria(produtoEntity.getCategoria())
                 .quantidade(produtoEntity.getQuantidade())
                 .promocao(produtoEntity.getPromocao())
-                .categoria(produtoEntity.getCategoria())
-                .descricao(produtoEntity.getDescricao())
-                .nome(produtoEntity.getNome())
+                .urlImagem(produtoEntity.getUrlImagem())
+                .idFornecedor(produtoEntity.getIdFornecedor())
                 .build();
     }
 
@@ -85,6 +89,8 @@ public class ProdutoServiceImpl implements ProdutoService {
         produtoEntity.setQuantidade(produtoVO.getQuantidade());
         produtoEntity.setCategoria(produtoVO.getCategoria());
         produtoEntity.setDescricao(produtoVO.getDescricao());
+        produtoEntity.setUrlImagem(produtoVO.getUrlImagem());
+        produtoEntity.setIdFornecedor(produtoVO.getIdFornecedor());
 
         return produtoEntity;
     }

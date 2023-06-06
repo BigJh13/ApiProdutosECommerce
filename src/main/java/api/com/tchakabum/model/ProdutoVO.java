@@ -23,6 +23,7 @@ public class ProdutoVO implements Serializable {
     private String categoria;
     private Integer quantidade;
     private Double promocao;
+    private String urlImagem;
     private Long idFornecedor;
 
 }

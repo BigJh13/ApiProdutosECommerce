@@ -40,6 +40,9 @@ public class ProdutoEntity implements Serializable {
     @Column(name = "PROMOCAO_PRODUTO")
     private double promocao;
 
+    @Column(name = "URL_IMAGEM_PRODUTO")
+    private String urlImagem;
+
     @Column(name = "ID_FORNECEDOR", nullable = true)
     private Long idFornecedor;
 }
