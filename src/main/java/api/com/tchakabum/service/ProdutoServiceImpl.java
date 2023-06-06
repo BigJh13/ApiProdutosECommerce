@@ -1,15 +1,15 @@
 package api.com.tchakabum.service;
 
-import api.com.tchakabum.entity.ProdutoEntity;
-import api.com.tchakabum.model.ProdutoVO;
-import api.com.tchakabum.repository.ProdutoRepository;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import api.com.tchakabum.entity.ProdutoEntity;
+import api.com.tchakabum.exception.NaoEncontradoException;
+import api.com.tchakabum.model.ProdutoVO;
+import api.com.tchakabum.repository.ProdutoRepository;
 
 @Service
 public class ProdutoServiceImpl implements ProdutoService {
@@ -18,9 +18,10 @@ public class ProdutoServiceImpl implements ProdutoService {
     private ProdutoRepository produtoRepository;
 
     @Override
-    public void criarProduto(ProdutoVO produtoVO) {
+    public ProdutoVO criarProduto(ProdutoVO produtoVO) {
         ProdutoEntity produtoEntity = mapProdutoVOParaEntity(produtoVO);
-        produtoRepository.save(produtoEntity);
+        produtoEntity = produtoRepository.save(produtoEntity);
+        return mapProdutoEntityParaVO(produtoEntity);
     }
 
     @Override
@@ -31,57 +32,61 @@ public class ProdutoServiceImpl implements ProdutoService {
         });
         return listaProdutos;
     }
+    
+    @Override
+	public ProdutoVO buscarPorId(Long id) {
+    	ProdutoEntity produto = produtoRepository.findById(id).orElseThrow(() -> new NaoEncontradoException("Nenhum produto foi encontrado"));
+    	return mapProdutoEntityParaVO(produto);
+	}
 
     @Override
     public void alterarProduto(ProdutoVO produtoVO, Long postId) {
 
-        produtoRepository.findById(postId).ifPresentOrElse(item->{
-            item.setValorProduto(produtoVO.getValorProduto());
-            item.setCategoriaProduto(produtoVO.getCategoriaProduto());
-            item.setPromocaoProduto(produtoVO.getPromocaoProduto());
-            item.setNomeProduto(produtoVO.getNomeProduto());
-            item.setDescricaoProduto(produtoVO.getDescricaoProduto());
-            item.setQuantidadeProduto(produtoVO.getQuantidadeProduto());
+    	produtoRepository.findById(postId).ifPresentOrElse(item->{
+    		item.setValor(produtoVO.getValor());
+    		item.setCategoria(produtoVO.getCategoria());
+    		item.setPromocao(produtoVO.getPromocao());
+    		item.setNome(produtoVO.getNome());
+    		item.setDescricao(produtoVO.getDescricao());
+    		item.setQuantidade(produtoVO.getQuantidade());
 
-            produtoRepository.save(item);
+    		produtoRepository.save(item);
 
-        }, ()->{
-            throw new NoSuchElementException();
-        });
+    	}, () -> { throw new NaoEncontradoException("Nenhum produto foi encontrado");
+    	});
     }
 
     @Override
     public void excluirProduto(Long id) {
-        produtoRepository.deleteById(id);
+    	ProdutoEntity produto = produtoRepository.findById(id).orElseThrow(() -> new NaoEncontradoException("Nenhum produto foi encontrado"));
+        produtoRepository.delete(produto);
     }
 
     private ProdutoVO mapProdutoEntityParaVO(ProdutoEntity produtoEntity) {
 
         return ProdutoVO.builder()
-                .valorProduto(produtoEntity.getValorProduto())
-                .quantidadeProduto(produtoEntity.getQuantidadeProduto())
-                .promocaoProduto(produtoEntity.getPromocaoProduto())
-                .categoriaProduto(produtoEntity.getCategoriaProduto())
-                .descricaoProduto(produtoEntity.getDescricaoProduto())
-                .nomeProduto(produtoEntity.getNomeProduto()).build();
+        		.id(produtoEntity.getId())
+                .valor(produtoEntity.getValor())
+                .quantidade(produtoEntity.getQuantidade())
+                .promocao(produtoEntity.getPromocao())
+                .categoria(produtoEntity.getCategoria())
+                .descricao(produtoEntity.getDescricao())
+                .nome(produtoEntity.getNome()).build();
     }
 
     private ProdutoEntity mapProdutoVOParaEntity(ProdutoVO produtoVO) {
 
         ProdutoEntity produtoEntity = new ProdutoEntity();
-/*        produtoRepository.findById(produtoVO.getForncedorId()).ifPresentOrElse(item->{
-            produtoEntity.setFornecedorProdutoId(item.getFornecedorProdutoId());
-        }, ()->{
-            throw new RuntimeException();
-        });
-*/
-        produtoEntity.setNomeProduto(produtoVO.getNomeProduto());
-        produtoEntity.setPromocaoProduto(produtoVO.getPromocaoProduto());
-        produtoEntity.setValorProduto(produtoVO.getValorProduto());
-        produtoEntity.setQuantidadeProduto(produtoVO.getQuantidadeProduto());
-        produtoEntity.setCategoriaProduto(produtoVO.getCategoriaProduto());
-        produtoEntity.setDescricaoProduto(produtoVO.getDescricaoProduto());
+        produtoEntity.setId(produtoVO.getId());
+        produtoEntity.setNome(produtoVO.getNome());
+        produtoEntity.setPromocao(produtoVO.getPromocao());
+        produtoEntity.setValor(produtoVO.getValor());
+        produtoEntity.setQuantidade(produtoVO.getQuantidade());
+        produtoEntity.setCategoria(produtoVO.getCategoria());
+        produtoEntity.setDescricao(produtoVO.getDescricao());
 
         return produtoEntity;
     }
+
+	
 }

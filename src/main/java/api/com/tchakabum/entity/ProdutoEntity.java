@@ -23,23 +23,23 @@ public class ProdutoEntity implements Serializable {
     private Long id;
 
     @Column(name = "NOME_PRODUTO")
-    private String nomeProduto;
+    private String nome;
 
     @Column(name = "DESCRICAO_PRODUTO")
-    private String descricaoProduto;
+    private String descricao;
 
     @Column(name = "VALOR_PRODUTO")
-    private Double valorProduto;
+    private Double valor;
 
     @Column(name = "QUANTIDADE_PRODUTO")
-    private int quantidadeProduto;
+    private int quantidade;
 
     @Column(name = "CATEGORIA_PRODUTO")
-    private String categoriaProduto;
+    private String categoria;
 
     @Column(name = "PROMOCAO_PRODUTO")
-    private double promocaoProduto;
+    private double promocao;
 
     @Column(name = "ID_FORNECEDOR", nullable = true)
-    private Long fornecedorProdutoId;
+    private Long idFornecedor;
 }

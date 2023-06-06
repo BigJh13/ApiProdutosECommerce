@@ -1,14 +1,16 @@
 package api.com.tchakabum.service;
 
-import api.com.tchakabum.model.ProdutoVO;
-
 import java.util.List;
+
+import api.com.tchakabum.model.ProdutoVO;
 
 public interface ProdutoService {
 
-    void criarProduto(ProdutoVO produtoVO);
+	ProdutoVO criarProduto(ProdutoVO produtoVO);
 
     List<ProdutoVO> getProdutos();
+    
+    ProdutoVO buscarPorId(Long id);
 
     void alterarProduto(ProdutoVO produtoVO, Long id);
 

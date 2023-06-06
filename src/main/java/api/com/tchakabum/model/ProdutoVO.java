@@ -17,12 +17,12 @@ public class ProdutoVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
-    private String nomeProduto;
-    private String descricaoProduto;
-    private Double valorProduto;
-    private String categoriaProduto;
-    private Integer quantidadeProduto;
-    private Double promocaoProduto;
-    private Long forncedorId;
+    private String nome;
+    private String descricao;
+    private Double valor;
+    private String categoria;
+    private Integer quantidade;
+    private Double promocao;
+    private Long idFornecedor;
 
 }
