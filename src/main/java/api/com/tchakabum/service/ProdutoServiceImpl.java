@@ -71,7 +71,8 @@ public class ProdutoServiceImpl implements ProdutoService {
                 .promocao(produtoEntity.getPromocao())
                 .categoria(produtoEntity.getCategoria())
                 .descricao(produtoEntity.getDescricao())
-                .nome(produtoEntity.getNome()).build();
+                .nome(produtoEntity.getNome())
+                .build();
     }
 
     private ProdutoEntity mapProdutoVOParaEntity(ProdutoVO produtoVO) {
@@ -87,6 +88,4 @@ public class ProdutoServiceImpl implements ProdutoService {
 
         return produtoEntity;
     }
-
-	
 }
